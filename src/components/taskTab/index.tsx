@@ -65,6 +65,7 @@ export const TaskTab: FC<ITaskTabProps> = ({ title, tasks, tabKey }) => {
     target.style.boxShadow = "none";
   };
   const dragEndHandler = (e: React.DragEvent<HTMLElement>) => {
+    console.log(e);
     const target = e.currentTarget as HTMLElement;
     target.style.boxShadow = "none";
   };
