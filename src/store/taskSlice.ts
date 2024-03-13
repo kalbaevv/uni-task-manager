@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTasks } from "./taskAction";
 import { Priority, TodoItem } from "../interfaces";
+import { find } from "@reduxjs/toolkit/dist/utils";
 
 interface TaskState {
   tasks: {
@@ -77,17 +78,18 @@ export const taskManagerSlice = createSlice({
     ) => {
       const { key, item, indexOfTask } = action.payload;
       if (key !== "Todo") {
+        if (state.tasks.done.find((task) => task.id === item.id)) return;
         const newRowIndex = state.tasks.done.findIndex((todo) => {
           return todo.id === item.id;
         });
         state.tasks.todo.splice(indexOfTask, 1);
         state.tasks.done.splice(newRowIndex, 0, state.task);
       } else {
+        if (state.tasks.todo.find((task) => task.id === item.id)) return;
         const newRowIndex = state.tasks.todo.findIndex((todo) => {
           return todo.id === item.id;
         });
         state.tasks.done.splice(indexOfTask, 1);
-
         state.tasks.todo.splice(newRowIndex, 0, state.task);
       }
     },
